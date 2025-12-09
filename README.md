@@ -25,5 +25,5 @@ A full-stack web application for developers to create interactive portfolios. Bu
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/devfolio.git
+git clone git@github.com:akbaruddin678/Devfolio.git
 cd devfolio
