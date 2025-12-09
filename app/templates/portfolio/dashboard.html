@@ -1,0 +1,315 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - DevFolio{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-header">
+            {% if current_user.profile_pic and current_user.profile_pic != 'default-profile.jpg' %}
+            <img src="{{ url_for('static', filename='uploads/profiles/' + current_user.profile_pic) }}" 
+                 alt="Profile" class="sidebar-avatar">
+            {% else %}
+            <div class="sidebar-avatar-initials">
+                {{ current_user.username[0]|upper }}
+            </div>
+            {% endif %}
+            <h6 class="sidebar-username">{{ current_user.username }}</h6>
+            {% if current_user.tagline %}
+            <p class="sidebar-tagline">{{ current_user.tagline }}</p>
+            {% endif %}
+        </div>
+        
+        <nav class="sidebar-nav">
+            <a href="{{ url_for('portfolio.dashboard') }}" class="nav-item active">
+                <i class="bi bi-speedometer2"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="{{ url_for('portfolio.edit_profile') }}" class="nav-item">
+                <i class="bi bi-person"></i>
+                <span>Edit Profile</span>
+            </a>
+            <a href="{{ url_for('portfolio.projects') }}" class="nav-item">
+                <i class="bi bi-briefcase"></i>
+                <span>Projects</span>
+                <span class="nav-badge">{{ projects_count }}</span>
+            </a>
+            <a href="{{ url_for('portfolio.blog') }}" class="nav-item">
+                <i class="bi bi-pencil-square"></i>
+                <span>Blog</span>
+                <span class="nav-badge">{{ blog_posts_count }}</span>
+            </a>
+            <a href="{{ url_for('portfolio.achievements') }}" class="nav-item">
+                <i class="bi bi-trophy"></i>
+                <span>Achievements</span>
+                <span class="nav-badge">{{ achievements_count }}</span>
+            </a>
+            <a href="{{ url_for('portfolio.skills') }}" class="nav-item">
+                <i class="bi bi-star"></i>
+                <span>Skills</span>
+                <span class="nav-badge">{{ skills_count }}</span>
+            </a>
+            <a href="{{ url_for('portfolio.analytics') }}" class="nav-item">
+                <i class="bi bi-graph-up"></i>
+                <span>Analytics</span>
+            </a>
+            <a href="{{ url_for('portfolio.public_portfolio', username=current_user.username) }}" 
+               target="_blank" class="nav-item">
+                <i class="bi bi-eye"></i>
+                <span>View Portfolio</span>
+            </a>
+        </nav>
+        
+        <div class="sidebar-actions">
+            <a href="{{ url_for('portfolio.add_project') }}" class="btn btn-gradient btn-sm w-100 mb-2">
+                <i class="bi bi-plus-circle"></i> Add Project
+            </a>
+            <a href="{{ url_for('portfolio.add_blog') }}" class="btn btn-outline-primary btn-sm w-100">
+                <i class="bi bi-plus-circle"></i> Write Blog
+            </a>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <div class="dashboard-header">
+            <h1 class="dashboard-title">Dashboard</h1>
+            <div class="dashboard-actions">
+                <button class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-share"></i> Share
+                </button>
+                <button class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-download"></i> Export
+                </button>
+            </div>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="dashboard-stats">
+            <div class="row g-3">
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card stat-primary">
+                        <div class="stat-icon">
+                            <i class="bi bi-briefcase"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">{{ projects_count }}</h3>
+                            <p class="stat-label">Projects</p>
+                            <a href="{{ url_for('portfolio.projects') }}" class="stat-link">
+                                View all <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card stat-success">
+                        <div class="stat-icon">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">{{ blog_posts_count }}</h3>
+                            <p class="stat-label">Blog Posts</p>
+                            <a href="{{ url_for('portfolio.blog') }}" class="stat-link">
+                                View all <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card stat-warning">
+                        <div class="stat-icon">
+                            <i class="bi bi-trophy"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">{{ achievements_count }}</h3>
+                            <p class="stat-label">Achievements</p>
+                            <a href="{{ url_for('portfolio.achievements') }}" class="stat-link">
+                                View all <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-3 col-md-6">
+                    <div class="stat-card stat-info">
+                        <div class="stat-icon">
+                            <i class="bi bi-eye"></i>
+                        </div>
+                        <div class="stat-content">
+                            <h3 class="stat-number">{{ view_stats.total_views }}</h3>
+                            <p class="stat-label">Total Views</p>
+                            <a href="{{ url_for('portfolio.analytics') }}" class="stat-link">
+                                View analytics <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="dashboard-content">
+            <div class="row">
+                <!-- Recent Projects -->
+                <div class="col-lg-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h6 class="card-title">
+                                <i class="bi bi-clock-history me-2"></i>Recent Projects
+                            </h6>
+                            <a href="{{ url_for('portfolio.projects') }}" class="btn btn-sm btn-outline-primary">
+                                View All
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            {% if recent_projects %}
+                            <div class="activity-list">
+                                {% for project in recent_projects %}
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="bi bi-briefcase"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h6>{{ project.title }}</h6>
+                                        <p class="text-muted">
+                                            {{ project.created_at.strftime('%b %d, %Y') }}
+                                            • {{ project.views }} views
+                                        </p>
+                                    </div>
+                                    <div class="activity-status">
+                                        <span class="badge bg-{{ 'success' if project.is_public else 'secondary' }}">
+                                            {{ 'Public' if project.is_public else 'Private' }}
+                                        </span>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="empty-state">
+                                <i class="bi bi-briefcase"></i>
+                                <p>No projects yet</p>
+                                <a href="{{ url_for('portfolio.add_project') }}" class="btn btn-sm btn-primary">
+                                    Create your first project
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Blog Posts -->
+                <div class="col-lg-6">
+                    <div class="dashboard-card">
+                        <div class="card-header">
+                            <h6 class="card-title">
+                                <i class="bi bi-newspaper me-2"></i>Recent Blog Posts
+                            </h6>
+                            <a href="{{ url_for('portfolio.blog') }}" class="btn btn-sm btn-outline-primary">
+                                View All
+                            </a>
+                        </div>
+                        <div class="card-body">
+                            {% if recent_posts %}
+                            <div class="activity-list">
+                                {% for post in recent_posts %}
+                                <div class="activity-item">
+                                    <div class="activity-icon">
+                                        <i class="bi bi-file-text"></i>
+                                    </div>
+                                    <div class="activity-content">
+                                        <h6>{{ post.title }}</h6>
+                                        <p class="text-muted">
+                                            {{ post.created_at.strftime('%b %d, %Y') }}
+                                            • {{ post.views }} views
+                                        </p>
+                                    </div>
+                                    <div class="activity-status">
+                                        <a href="{{ url_for('portfolio.edit_blog', post_id=post.id) }}" 
+                                           class="btn btn-sm btn-outline-secondary">
+                                            Edit
+                                        </a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <div class="empty-state">
+                                <i class="bi bi-pencil-square"></i>
+                                <p>No blog posts yet</p>
+                                <a href="{{ url_for('portfolio.add_blog') }}" class="btn btn-sm btn-primary">
+                                    Write your first post
+                                </a>
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dashboard-card mt-4">
+                <div class="card-header">
+                    <h6 class="card-title">
+                        <i class="bi bi-lightning me-2"></i>Quick Actions
+                    </h6>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-3 col-6">
+                            <a href="{{ url_for('portfolio.add_project') }}" class="quick-action-btn">
+                                <div class="action-icon bg-primary">
+                                    <i class="bi bi-plus-circle"></i>
+                                </div>
+                                <span>Add Project</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <a href="{{ url_for('portfolio.add_blog') }}" class="quick-action-btn">
+                                <div class="action-icon bg-success">
+                                    <i class="bi bi-pencil-square"></i>
+                                </div>
+                                <span>Write Blog</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <a href="{{ url_for('portfolio.add_achievement') }}" class="quick-action-btn">
+                                <div class="action-icon bg-warning">
+                                    <i class="bi bi-trophy"></i>
+                                </div>
+                                <span>Add Achievement</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3 col-6">
+                            <a href="{{ url_for('portfolio.edit_profile') }}" class="quick-action-btn">
+                                <div class="action-icon bg-info">
+                                    <i class="bi bi-person"></i>
+                                </div>
+                                <span>Edit Profile</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+});
+</script>
+{% endblock %}

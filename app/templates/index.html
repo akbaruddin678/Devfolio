@@ -1,0 +1,283 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Build Your Professional Developer Portfolio{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-6">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Build Your <span class="text-primary">Professional</span> Developer Portfolio</h1>
+                <p class="lead mb-4 text-muted">Showcase your projects, skills, and achievements with a stunning portfolio that gets you noticed by employers and clients.</p>
+                <div class="d-flex flex-wrap gap-3 mb-5">
+                    <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-lg px-4 py-3">
+                        <i class="bi bi-rocket-takeoff me-2"></i>Start Building Free
+                    </a>
+                    <a href="{{ url_for('main.explore') }}" class="btn btn-outline-primary btn-lg px-4 py-3">
+                        <i class="bi bi-eye me-2"></i>View Examples
+                    </a>
+                </div>
+                <div class="row g-4">
+                    <div class="col-4">
+                        <div class="text-center">
+                            <h3 class="fw-bold text-primary mb-1">1,000+</h3>
+                            <p class="text-muted mb-0">Developers</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <h3 class="fw-bold text-primary mb-1">5,000+</h3>
+                            <p class="text-muted mb-0">Projects</p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="text-center">
+                            <h3 class="fw-bold text-primary mb-1">50K+</h3>
+                            <p class="text-muted mb-0">Views</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="card border-0 shadow-lg overflow-hidden mt-5 mt-lg-0">
+                    <div class="card-header bg-primary text-white py-3">
+                        <div class="d-flex align-items-center">
+                            <div class="avatar-circle me-3">JD</div>
+                            <div>
+                                <h5 class="mb-0">John Developer</h5>
+                                <small class="opacity-75">Full Stack Developer</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-wrap gap-1 mb-3">
+                                            <span class="badge bg-primary">React</span>
+                                            <span class="badge bg-success">Node.js</span>
+                                            <span class="badge bg-warning">MongoDB</span>
+                                        </div>
+                                        <h6 class="card-title fw-bold">E-Commerce Platform</h6>
+                                        <p class="card-text text-muted small">Full-stack solution with real-time updates</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card h-100 border-0 bg-light">
+                                    <div class="card-body">
+                                        <div class="d-flex flex-wrap gap-1 mb-3">
+                                            <span class="badge bg-info">Python</span>
+                                            <span class="badge bg-danger">Flask</span>
+                                            <span class="badge bg-secondary">SQLite</span>
+                                        </div>
+                                        <h6 class="card-title fw-bold">Portfolio Builder</h6>
+                                        <p class="card-text text-muted small">Web application for developers</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="py-6 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="display-5 fw-bold mb-3">Everything You Need to Showcase Your Work</h2>
+            <p class="lead text-muted">Powerful features designed specifically for developers</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="feature-icon bg-primary bg-opacity-10 text-primary rounded-3 p-3 mb-4">
+                            <i class="bi bi-briefcase fs-2"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Project Showcase</h4>
+                        <p class="card-text text-muted mb-4">Display your projects with detailed descriptions, tech stack, live demos, and source code links.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Tech stack tags</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Image & video uploads</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>GitHub integration</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Live demo links</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="feature-icon bg-success bg-opacity-10 text-success rounded-3 p-3 mb-4">
+                            <i class="bi bi-person-badge fs-2"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Skills & Achievements</h4>
+                        <p class="card-text text-muted mb-4">Highlight your technical skills, certifications, awards, and professional achievements.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Skill proficiency levels</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Certificate uploads</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Badges & awards</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Progress tracking</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="feature-icon bg-warning bg-opacity-10 text-warning rounded-3 p-3 mb-4">
+                            <i class="bi bi-graph-up fs-2"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Analytics Dashboard</h4>
+                        <p class="card-text text-muted mb-4">Track portfolio views, visitor locations, and engagement metrics for your projects.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>View statistics</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Visitor insights</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Engagement tracking</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Performance metrics</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="feature-icon bg-info bg-opacity-10 text-info rounded-3 p-3 mb-4">
+                            <i class="bi bi-pencil-square fs-2"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Developer Blog</h4>
+                        <p class="card-text text-muted mb-4">Share your knowledge, tutorials, and experiences with a built-in blogging system.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Markdown support</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Code highlighting</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Comments system</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>SEO optimized</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="feature-icon bg-purple bg-opacity-10 text-purple rounded-3 p-3 mb-4">
+                            <i class="bi bi-share fs-2"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Shareable Portfolio</h4>
+                        <p class="card-text text-muted mb-4">Get a personalized URL to share your portfolio with employers, clients, and peers.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Custom URL</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>QR code generation</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Social media sharing</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Export options</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="card h-100 border-0 shadow-sm hover-shadow transition-all">
+                    <div class="card-body p-4">
+                        <div class="feature-icon bg-danger bg-opacity-10 text-danger rounded-3 p-3 mb-4">
+                            <i class="bi bi-phone fs-2"></i>
+                        </div>
+                        <h4 class="card-title fw-bold mb-3">Mobile Responsive</h4>
+                        <p class="card-text text-muted mb-4">Your portfolio looks perfect on all devices - desktop, tablet, and mobile.</p>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Responsive design</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Dark mode</li>
+                            <li class="mb-2"><i class="bi bi-check-circle text-success me-2"></i>Fast loading</li>
+                            <li><i class="bi bi-check-circle text-success me-2"></i>Accessibility features</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-6 bg-primary text-white">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="display-5 fw-bold mb-3">Ready to Build Your Portfolio?</h2>
+            <p class="lead mb-4 opacity-75">Join thousands of developers showcasing their work on DevFolio</p>
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+                <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg px-5 py-3">
+                    <i class="bi bi-person-plus me-2"></i>Create Free Account
+                </a>
+                <a href="{{ url_for('main.features') }}" class="btn btn-outline-light btn-lg px-5 py-3">
+                    <i class="bi bi-info-circle me-2"></i>Learn More
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero-section {
+        padding-top: 8rem;
+        padding-bottom: 5rem;
+    }
+    
+    .py-6 {
+        padding-top: 6rem;
+        padding-bottom: 6rem;
+    }
+    
+    .hover-shadow {
+        transition: all 0.3s ease;
+    }
+    
+    .hover-shadow:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .transition-all {
+        transition: all 0.3s ease;
+    }
+    
+    .bg-purple {
+        background-color: #8b5cf6;
+    }
+    
+    .text-purple {
+        color: #8b5cf6;
+    }
+    
+    .bg-opacity-10 {
+        background-color: rgba(var(--bs-primary-rgb), 0.1);
+    }
+    
+    @media (max-width: 768px) {
+        .hero-section {
+            padding-top: 6rem;
+            padding-bottom: 3rem;
+        }
+        
+        .py-6 {
+            padding-top: 4rem;
+            padding-bottom: 4rem;
+        }
+        
+        .display-4 {
+            font-size: 2.5rem;
+        }
+        
+        .display-5 {
+            font-size: 2rem;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,36 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+eggs/
+*.egg-info/
+.installed.cfg
+*.manifest
+.project
+.settings
+.vscode/ # VS Code specific files
+
+# Flask specific
+instance/ # Flask instance folder for configuration and data
+.flaskenv # Environment variables for Flask
+
+# SQLAlchemy specific
+*.sqlite # SQLite database files
+*.db # Generic database files
+alembic/versions/ # Alembic migration history (if not tracked)
+alembic.ini # Alembic configuration (if not tracked)
+
+# Operating System and Editor specific
+.DS_Store
+.Trash
+Thumbs.db
+ehthumbs.db
+desktop.ini

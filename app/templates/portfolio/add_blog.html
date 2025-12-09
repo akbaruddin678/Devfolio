@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit' if post else 'Write' }} Blog Post - DevFolio{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-pencil-square me-2"></i>
+                        {{ 'Edit' if post else 'Write New' }} Blog Post
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control", placeholder="Post Title") }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.excerpt.label(class="form-label") }}
+                            {{ form.excerpt(class="form-control", rows=2, placeholder="Brief summary of your post...") }}
+                            <div class="form-text">Max 300 characters</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.content.label(class="form-label") }}
+                            {{ form.content(class="form-control", rows=10, placeholder="Write your post content here...") }}
+                            <div class="form-text">Supports Markdown formatting</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    {{ form.is_published(class="form-check-input") }}
+                                    {{ form.is_published.label(class="form-check-label") }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('portfolio.blog') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Cancel
+                            </a>
+                            <div>
+                                <button type="submit" name="save_draft" value="true" class="btn btn-outline-primary">
+                                    <i class="bi bi-save me-1"></i> Save Draft
+                                </button>
+                                <button type="submit" name="publish" value="true" class="btn btn-gradient ms-2">
+                                    <i class="bi bi-send me-1"></i> {{ 'Update' if post else 'Publish' }}
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,316 @@
+{% extends "base.html" %}
+
+{% block title %}{{ user.username }}'s Portfolio - DevFolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+    }
+    
+    .profile-pic {
+        width: 150px;
+        height: 150px;
+        border: 5px solid white;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .skill-badge {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        margin: 0.25rem;
+    }
+    
+    .project-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .project-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+    
+    .tech-stack {
+        font-size: 0.8rem;
+    }
+    
+    .social-icon {
+        width: 40px;
+        height: 40px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        text-decoration: none;
+        margin: 0.25rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .social-icon:hover {
+        transform: scale(1.1);
+    }
+    
+    .github { background: #333; }
+    .linkedin { background: #0077b5; }
+    .twitter { background: #1da1f2; }
+    .website { background: #6c757d; }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Profile Header -->
+<section class="profile-header">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center">
+                {% if user.profile_pic %}
+                <img src="{{ url_for('static', filename='uploads/profiles/' + user.profile_pic) }}" 
+                     alt="{{ user.username }}" class="rounded-circle profile-pic">
+                {% else %}
+                <div class="rounded-circle profile-pic bg-white d-flex align-items-center justify-content-center mx-auto">
+                    <span class="text-primary fw-bold display-4">{{ user.username[0]|upper }}</span>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-9">
+                <h1 class="display-4 fw-bold">{{ user.full_name or user.username }}</h1>
+                {% if user.tagline %}
+                <p class="lead">{{ user.tagline }}</p>
+                {% endif %}
+                
+                {% if user.location %}
+                <p class="mb-3">
+                    <i class="bi bi-geo-alt me-1"></i>{{ user.location }}
+                </p>
+                {% endif %}
+                
+                <!-- Social Links -->
+                <div class="d-flex mb-3">
+                    {% if user.github %}
+                    <a href="{{ user.github }}" target="_blank" class="social-icon github">
+                        <i class="bi bi-github"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if user.linkedin %}
+                    <a href="{{ user.linkedin }}" target="_blank" class="social-icon linkedin">
+                        <i class="bi bi-linkedin"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if user.twitter %}
+                    <a href="{{ user.twitter }}" target="_blank" class="social-icon twitter">
+                        <i class="bi bi-twitter"></i>
+                    </a>
+                    {% endif %}
+                    
+                    {% if user.website %}
+                    <a href="{{ user.website }}" target="_blank" class="social-icon website">
+                        <i class="bi bi-globe"></i>
+                    </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Skills -->
+                {% if skills %}
+                <div class="d-flex flex-wrap">
+                    {% for skill in skills %}
+                    <span class="skill-badge">
+                        {{ skill.name }}
+                        {% if skill.proficiency %}
+                        <span class="ms-1">
+                            {% for i in range(5) %}
+                            {% if i < skill.proficiency %}
+                            <i class="bi bi-star-fill"></i>
+                            {% else %}
+                            <i class="bi bi-star"></i>
+                            {% endif %}
+                            {% endfor %}
+                        </span>
+                        {% endif %}
+                    </span>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Main Content -->
+<div class="container">
+    <!-- About Section -->
+    {% if user.bio %}
+    <section class="mb-5">
+        <h2 class="mb-4">About Me</h2>
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">{{ user.bio|safe }}</p>
+            </div>
+        </div>
+    </section>
+    {% endif %}
+
+    <!-- Projects Section -->
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Projects</h2>
+            <span class="badge bg-primary">{{ projects|length }} projects</span>
+        </div>
+        
+        {% if projects %}
+        <div class="row g-4">
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4">
+                <div class="card h-100 project-card">
+                    {% if project.featured_image %}
+                    <img src="{{ url_for('static', filename='uploads/projects/' + project.featured_image) }}" 
+                         class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                    {% else %}
+                    <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                         style="height: 200px;">
+                        <i class="bi bi-code-slash fs-1 text-muted"></i>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">{{ project.title }}</h5>
+                        <p class="card-text text-muted">
+                            {{ project.short_description or project.description[:150] }}...
+                        </p>
+                        
+                        {% if project.tech_list %}
+                        <div class="mb-3">
+                            {% for tech in project.tech_list[:3] %}
+                            <span class="badge bg-light text-dark border me-1">{{ tech }}</span>
+                            {% endfor %}
+                            {% if project.tech_list|length > 3 %}
+                            <span class="badge bg-light text-dark border">+{{ project.tech_list|length - 3 }}</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                <i class="bi bi-eye me-1"></i>{{ project.views }} views
+                            </small>
+                            <a href="{{ url_for('portfolio.project_detail', username=user.username, slug=project.slug) }}" 
+                               class="btn btn-sm btn-outline-primary">
+                                View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-5 bg-light rounded">
+            <i class="bi bi-briefcase fs-1 text-muted mb-3"></i>
+            <p class="text-muted">No projects to display yet.</p>
+        </div>
+        {% endif %}
+    </section>
+
+    <!-- Blog Posts Section -->
+    {% if blog_posts %}
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Blog Posts</h2>
+            <span class="badge bg-success">{{ blog_posts|length }} posts</span>
+        </div>
+        
+        <div class="row g-4">
+            {% for post in blog_posts[:3] %}
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ post.title }}</h5>
+                        <p class="card-text text-muted">
+                            {{ post.excerpt or post.content[:200] }}...
+                        </p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                {{ post.created_at.strftime('%b %d, %Y') }}
+                            </small>
+                            <a href="{{ url_for('portfolio.blog_detail', username=user.username, slug=post.slug) }}" 
+                               class="btn btn-sm btn-outline-success">
+                                Read More
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        {% if blog_posts|length > 3 %}
+        <div class="text-center mt-4">
+            <a href="#blog" class="btn btn-outline-success">
+                View All Posts <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+        {% endif %}
+    </section>
+    {% endif %}
+
+    <!-- Achievements Section -->
+    {% if achievements %}
+    <section class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>Achievements & Certifications</h2>
+            <span class="badge bg-warning">{{ achievements|length }} achievements</span>
+        </div>
+        
+        <div class="row g-4">
+            {% for achievement in achievements %}
+            <div class="col-md-6">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ achievement.title }}</h5>
+                        {% if achievement.category %}
+                        <span class="badge bg-info mb-2">{{ achievement.category|title }}</span>
+                        {% endif %}
+                        
+                        {% if achievement.description %}
+                        <p class="card-text">{{ achievement.description }}</p>
+                        {% endif %}
+                        
+                        {% if achievement.issuer %}
+                        <p class="mb-1">
+                            <strong>Issued by:</strong> {{ achievement.issuer }}
+                        </p>
+                        {% endif %}
+                        
+                        {% if achievement.issue_date %}
+                        <p class="mb-1">
+                            <strong>Date:</strong> {{ achievement.issue_date.strftime('%B %Y') }}
+                        </p>
+                        {% endif %}
+                        
+                        {% if achievement.file_path %}
+                        <div class="mt-3">
+                            <a href="{{ url_for('static', filename='uploads/achievements/' + achievement.file_path) }}" 
+                               target="_blank" class="btn btn-sm btn-outline-warning">
+                                <i class="bi bi-download me-1"></i> View Certificate
+                            </a>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    {% endif %}
+</div>
+{% endblock %}

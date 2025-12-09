@@ -1,0 +1,203 @@
+{% extends "base.html" %}
+
+{% block title %}Analytics - DevFolio{% endblock %}
+
+{% block extra_css %}
+<style>
+    .chart-container {
+        position: relative;
+        height: 300px;
+        width: 100%;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <h1 class="mb-4"><i class="bi bi-graph-up me-2"></i>Analytics</h1>
+    
+    <!-- Overview Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-3">
+            <div class="card stat-card stat-primary">
+                <div class="stat-icon">
+                    <i class="bi bi-eye"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ stats.total_views }}</h3>
+                    <p class="stat-label">Total Views</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card stat-success">
+                <div class="stat-icon">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ top_projects|length }}</h3>
+                    <p class="stat-label">Projects</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card stat-warning">
+                <div class="stat-icon">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ blog_posts_count }}</h3>
+                    <p class="stat-label">Blog Posts</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card stat-card stat-info">
+                <div class="stat-icon">
+                    <i class="bi bi-people"></i>
+                </div>
+                <div class="stat-content">
+                    <h3 class="stat-number">{{ unique_visitors }}</h3>
+                    <p class="stat-label">Unique Visitors</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Charts -->
+    <div class="row mb-4">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Views Over Time (Last 30 Days)</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-container">
+                        <canvas id="viewsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card">
+                <div class="card-header">
+                    <h6 class="mb-0">Top Projects</h6>
+                </div>
+                <div class="card-body">
+                    {% if top_projects %}
+                    <div class="list-group list-group-flush">
+                        {% for project in top_projects %}
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6 class="mb-1">{{ project.title }}</h6>
+                                <small class="text-muted">{{ project.views }} views</small>
+                            </div>
+                            <a href="{{ url_for('portfolio.project_detail', username=current_user.username, slug=project.slug) }}"
+                               class="btn btn-sm btn-outline-primary">
+                                View
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <p class="text-muted text-center py-4">No project views yet</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Recent Views -->
+    <div class="card">
+        <div class="card-header">
+            <h6 class="mb-0">Recent Views</h6>
+        </div>
+        <div class="card-body">
+            {% if recent_views %}
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Item</th>
+                            <th>IP Address</th>
+                            <th>Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for view in recent_views %}
+                        <tr>
+                            <td>
+                                <span class="badge bg-{{ {'profile': 'primary', 'project': 'success', 'blog': 'info'}[view.entity_type] }}">
+                                    {{ view.entity_type|title }}
+                                </span>
+                            </td>
+                            <td>
+                                {% if view.entity_type == 'profile' %}
+                                Profile
+                                {% elif view.entity_type == 'project' %}
+                                {% set project = get_project_by_id(view.entity_id) %}
+                                {{ project.title if project else 'Project' }}
+                                {% else %}
+                                Blog Post
+                                {% endif %}
+                            </td>
+                            <td><code>{{ view.ip_address }}</code></td>
+                            <td>{{ view.timestamp.strftime('%Y-%m-%d %H:%M') }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% else %}
+            <p class="text-muted text-center py-4">No views recorded yet</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Prepare chart data
+    const viewsData = {
+        labels: {{ stats.daily_counts|map(attribute='date')|list|tojson }},
+        datasets: [{
+            label: 'Views',
+            data: {{ stats.daily_counts|map(attribute='count')|list|tojson }},
+            borderColor: '#6366f1',
+            backgroundColor: 'rgba(99, 102, 241, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4
+        }]
+    };
+    
+    // Create chart
+    const ctx = document.getElementById('viewsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: viewsData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(0,0,0,0.05)' },
+                    ticks: { stepSize: 1 }
+                },
+                x: {
+                    grid: { display: false }
+                }
+            }
+        }
+    });
+});
+</script>
+{% endblock %}

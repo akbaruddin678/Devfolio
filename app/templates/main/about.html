@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block title %}About - DevFolio{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3">About DevFolio</h1>
+        <p class="lead text-muted">Building the future of developer portfolios</p>
+    </div>
+    
+    <!-- Mission -->
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-4">Our Mission</h2>
+            <p class="text-muted">
+                DevFolio was created to solve a simple problem: developers spend too much time building portfolio websites instead of showcasing their actual work. We believe that your portfolio should be about your projects, skills, and achievements - not about wrestling with CSS and deployment.
+            </p>
+            <p class="text-muted">
+                Our platform provides everything developers need to create beautiful, functional portfolios in minutes, not weeks. Focus on what matters - your work - and let us handle the presentation.
+            </p>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body text-center">
+                    <i class="bi bi-code-slash display-1 text-primary mb-3"></i>
+                    <h4>Built for Developers</h4>
+                    <p class="text-muted">By developers, for developers</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Team Section -->
+    <div class="mb-5">
+        <h2 class="text-center mb-4">The Team</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-4">
+                <div class="card team-card">
+                    <div class="card-body text-center">
+                        <div class="team-avatar mb-3">
+                            <span>SA</span>
+                        </div>
+                        <h5 class="card-title">Syed Ali Abbas</h5>
+                        <p class="text-muted mb-3">Project Creator & Developer</p>
+                        <p class="card-text small">
+                            Edinburgh Napier University student developing DevFolio as part of the SET09103 Advanced Web Technologies module.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Edinburgh Napier Section -->
+    <div class="card mb-5">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-lg-3 text-center">
+                    <i class="bi bi-building display-1 text-primary"></i>
+                </div>
+                <div class="col-lg-9">
+                    <h3>Edinburgh Napier University</h3>
+                    <p class="text-muted">
+                        DevFolio is developed as part of the <strong>SET09103 - Advanced Web Technologies</strong> module at Edinburgh Napier University's School of Computing, Engineering & the Built Environment.
+                    </p>
+                    <p class="text-muted mb-0">
+                        This project demonstrates advanced web development skills using Python Flask, modern frontend technologies, and industry best practices.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Technology Stack -->
+    <div class="mb-5">
+        <h2 class="text-center mb-4">Technology Stack</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="tech-card text-center">
+                    <div class="tech-icon bg-primary mb-3">
+                        <i class="bi bi-filetype-py"></i>
+                    </div>
+                    <h5>Backend</h5>
+                    <p class="text-muted small">Python Flask, SQLAlchemy, Flask-Login, Flask-WTF</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="tech-card text-center">
+                    <div class="tech-icon bg-success mb-3">
+                        <i class="bi bi-browser-chrome"></i>
+                    </div>
+                    <h5>Frontend</h5>
+                    <p class="text-muted small">Bootstrap 5, JavaScript, Jinja2 Templates, Chart.js</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="tech-card text-center">
+                    <div class="tech-icon bg-warning mb-3">
+                        <i class="bi bi-database"></i>
+                    </div>
+                    <h5>Database</h5>
+                    <p class="text-muted small">SQLite (Development), PostgreSQL (Production)</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contact/Support -->
+    <div class="text-center">
+        <h2 class="mb-4">Questions or Feedback?</h2>
+        <p class="text-muted mb-4">
+            This is a student project for Edinburgh Napier University. For questions about the project or to report issues, please contact the module coordinator.
+        </p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="https://www.napier.ac.uk/" target="_blank" class="btn btn-outline-primary">
+                <i class="bi bi-globe me-2"></i>Edinburgh Napier University
+            </a>
+            <a href="https://moodle.napier.ac.uk/" target="_blank" class="btn btn-outline-secondary">
+                <i class="bi bi-mortarboard me-2"></i>Moodle
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+.team-avatar {
+    width: 100px;
+    height: 100px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+.tech-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    color: white;
+    font-size: 2rem;
+}
+</style>
+{% endblock %}

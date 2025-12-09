@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit' if project else 'Add' }} Project - DevFolio{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="mb-0">
+                        <i class="bi bi-briefcase me-2"></i>
+                        {{ 'Edit' if project else 'Add New' }} Project
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {{ form.hidden_tag() }}
+                        
+                        <div class="mb-3">
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control", placeholder="Project Title") }}
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.short_description.label(class="form-label") }}
+                            {{ form.short_description(class="form-control", placeholder="Brief description (appears in cards)") }}
+                            <div class="form-text">Max 300 characters</div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            {{ form.description.label(class="form-label") }}
+                            {{ form.description(class="form-control", rows=6, placeholder="Describe your project in detail...") }}
+                            <div class="form-text">Supports HTML formatting</div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.tech_stack.label(class="form-label") }}
+                                {{ form.tech_stack(class="form-control", placeholder="Python, Flask, Bootstrap, SQLite") }}
+                                <div class="form-text">Comma-separated technologies</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Featured Image</label>
+                                <div class="image-upload-container">
+                                    <div class="image-preview mb-2">
+                                        {% if project and project.featured_image %}
+                                        <img src="{{ url_for('static', filename='uploads/projects/' + project.featured_image) }}" 
+                                             id="imagePreview" class="img-fluid rounded" style="max-height: 150px;">
+                                        {% else %}
+                                        <div id="imagePreview" class="image-placeholder">
+                                            <i class="bi bi-image text-muted" style="font-size: 3rem;"></i>
+                                            <p class="text-muted small mt-2">No image selected</p>
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                    {{ form.featured_image(class="form-control", id="imageInput", accept="image/*") }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                {{ form.repo_url.label(class="form-label") }}
+                                {{ form.repo_url(class="form-control", placeholder="https://github.com/username/project") }}
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form.live_url.label(class="form-label") }}
+                                {{ form.live_url(class="form-control", placeholder="https://project-demo.com") }}
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    {{ form.is_public(class="form-check-input") }}
+                                    {{ form.is_public.label(class="form-check-label") }}
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-check">
+                                    {{ form.is_featured(class="form-check-input") }}
+                                    {{ form.is_featured.label(class="form-check-label") }}
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between mt-4">
+                            <a href="{{ url_for('portfolio.projects') }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-arrow-left me-1"></i> Cancel
+                            </a>
+                            <button type="submit" class="btn btn-gradient">
+                                <i class="bi bi-save me-1"></i> {{ 'Update' if project else 'Save' }} Project
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.getElementById('imageInput').addEventListener('change', function(e) {
+    const file = this.files[0];
+    if (file && file.type.startsWith('image/')) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const preview = document.getElementById('imagePreview');
+            if (preview.tagName === 'IMG') {
+                preview.src = e.target.result;
+            } else {
+                // Replace placeholder with image
+                const img = document.createElement('img');
+                img.id = 'imagePreview';
+                img.className = 'img-fluid rounded';
+                img.style.maxHeight = '150px';
+                img.src = e.target.result;
+                preview.parentNode.replaceChild(img, preview);
+            }
+        };
+        reader.readAsDataURL(file);
+    }
+});
+</script>
+{% endblock %}

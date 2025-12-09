@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Features - DevFolio{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <!-- Hero Section -->
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold mb-3">Everything You Need to Showcase Your Work</h1>
+        <p class="lead text-muted">DevFolio provides all the tools you need to create a stunning developer portfolio</p>
+    </div>
+    
+    <!-- Main Features -->
+    <div class="row g-4 mb-5">
+        <div class="col-lg-4">
+            <div class="feature-highlight text-center">
+                <div class="feature-icon-lg bg-primary mb-4">
+                    <i class="bi bi-briefcase"></i>
+                </div>
+                <h3>Project Showcase</h3>
+                <p class="text-muted">Display your projects with detailed descriptions, tech stacks, and live demos. Upload images, videos, and source code links.</p>
+                <ul class="list-unstyled text-start">
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Multiple project images</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Tech stack tags</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> GitHub integration</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Live demo URLs</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="feature-highlight text-center">
+                <div class="feature-icon-lg bg-success mb-4">
+                    <i class="bi bi-person-badge"></i>
+                </div>
+                <h3>Skills & Achievements</h3>
+                <p class="text-muted">Highlight your technical skills with proficiency levels. Showcase certificates, awards, publications, and professional achievements.</p>
+                <ul class="list-unstyled text-start">
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Skill proficiency ratings</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Certificate uploads</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Awards & recognition</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Publication showcase</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="col-lg-4">
+            <div class="feature-highlight text-center">
+                <div class="feature-icon-lg bg-warning mb-4">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <h3>Developer Blog</h3>
+                <p class="text-muted">Share your knowledge, tutorials, and experiences with a built-in blogging system. Write technical articles and share insights.</p>
+                <ul class="list-unstyled text-start">
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Markdown support</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Code highlighting</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> Draft & publish</li>
+                    <li><i class="bi bi-check-circle text-success me-2"></i> View analytics</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Analytics Feature -->
+    <div class="row align-items-center mb-5">
+        <div class="col-lg-6">
+            <h2 class="fw-bold mb-4">Track Your Portfolio Performance</h2>
+            <p class="text-muted mb-4">Get insights into who's viewing your portfolio, which projects are most popular, and visitor demographics.</p>
+            <ul class="list-unstyled">
+                <li class="mb-3">
+                    <i class="bi bi-graph-up text-primary me-2"></i>
+                    <strong>View Statistics:</strong> Daily, weekly, and monthly view counts
+                </li>
+                <li class="mb-3">
+                    <i class="bi bi-eye text-primary me-2"></i>
+                    <strong>Project Analytics:</strong> See which projects get the most attention
+                </li>
+                <li class="mb-3">
+                    <i class="bi bi-people text-primary me-2"></i>
+                    <strong>Visitor Insights:</strong> Understand your audience better
+                </li>
+                <li class="mb-3">
+                    <i class="bi bi-map text-primary me-2"></i>
+                    <strong>Geographic Data:</strong> See where your visitors are coming from
+                </li>
+            </ul>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-body">
+                    <h6 class="card-title">Sample Analytics Dashboard</h6>
+                    <div class="chart-placeholder" style="height: 200px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); opacity: 0.1;"></div>
+                    <div class="row text-center mt-3">
+                        <div class="col-4">
+                            <h4 class="mb-0">1,245</h4>
+                            <small>Total Views</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mb-0">45</h4>
+                            <small>Projects</small>
+                        </div>
+                        <div class="col-4">
+                            <h4 class="mb-0">12</h4>
+                            <small>Blog Posts</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pricing/CTA Section -->
+    <div class="text-center py-5 mt-5 rounded-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+        <h2 class="text-white mb-4">Ready to Build Your Portfolio?</h2>
+        <p class="text-white-50 mb-4">Join thousands of developers showcasing their work on DevFolio</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{{ url_for('auth.register') }}" class="btn btn-light btn-lg px-5">
+                <i class="bi bi-rocket-takeoff me-2"></i>Get Started Free
+            </a>
+            <a href="{{ url_for('main.explore') }}" class="btn btn-outline-light btn-lg px-5">
+                <i class="bi bi-eye me-2"></i>View Examples
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

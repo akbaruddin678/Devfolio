@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}My Projects - DevFolio{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1><i class="bi bi-briefcase me-2"></i>Projects</h1>
+        <a href="{{ url_for('portfolio.add_project') }}" class="btn btn-gradient">
+            <i class="bi bi-plus-circle me-1"></i> Add Project
+        </a>
+    </div>
+    
+    {% if projects %}
+    <div class="row g-4">
+        {% for project in projects %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card project-card h-100">
+                {% if project.featured_image %}
+                <img src="{{ url_for('static', filename='uploads/projects/' + project.featured_image) }}" 
+                     class="card-img-top" alt="{{ project.title }}" style="height: 200px; object-fit: cover;">
+                {% else %}
+                <div class="card-img-top bg-light d-flex align-items-center justify-content-center" 
+                     style="height: 200px;">
+                    <i class="bi bi-code-slash text-muted" style="font-size: 3rem;"></i>
+                </div>
+                {% endif %}
+                
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title mb-0">{{ project.title }}</h5>
+                        <span class="badge bg-{{ 'success' if project.is_public else 'secondary' }}">
+                            {{ 'Public' if project.is_public else 'Private' }}
+                        </span>
+                    </div>
+                    
+                    <p class="card-text text-muted flex-grow-1">
+                        {{ project.short_description or project.description[:100] }}...
+                    </p>
+                    
+                    {% if project.tech_stack %}
+                    <div class="mb-3">
+                        {% for tech in project.tech_stack.split(',')[:3] %}
+                        <span class="badge bg-light text-dark border me-1">{{ tech.strip() }}</span>
+                        {% endfor %}
+                        {% if project.tech_stack.split(',')|length > 3 %}
+                        <span class="badge bg-light text-dark border">+{{ project.tech_stack.split(',')|length - 3 }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="d-flex justify-content-between align-items-center mt-auto">
+                        <small class="text-muted">
+                            <i class="bi bi-eye me-1"></i>{{ project.views }} views
+                        </small>
+                        <div class="btn-group">
+                            <a href="{{ url_for('portfolio.edit_project', project_id=project.id) }}" 
+                               class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-danger" 
+                                    data-bs-toggle="modal" data-bs-target="#deleteModal{{ project.id }}">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Delete Modal -->
+            <div class="modal fade" id="deleteModal{{ project.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Delete Project</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            Are you sure you want to delete "{{ project.title }}"? This action cannot be undone.
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                            <form method="POST" action="{{ url_for('portfolio.delete_project', project_id=project.id) }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-5">
+        <i class="bi bi-briefcase text-muted" style="font-size: 4rem;"></i>
+        <h3 class="mt-3">No projects yet</h3>
+        <p class="text-muted">Start showcasing your work by adding your first project.</p>
+        <a href="{{ url_for('portfolio.add_project') }}" class="btn btn-gradient btn-lg mt-2">
+            <i class="bi bi-plus-circle me-1"></i> Add Your First Project
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
